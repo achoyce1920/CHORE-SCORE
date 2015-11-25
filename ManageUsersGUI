@@ -28,7 +28,7 @@ public class ManageUsersGUI1 extends JPanel {
         //set components properties
         addNewUserTextField.setToolTipText ("Enter name and click on Add button.");
         addButton.setToolTipText ("Click here to Add new user.");
-        deleteButton.setToolTipText ("Click here to delete User(s) selected.");
+        //deleteButton.setToolTipText ("Click here to delete User(s) selected.");
 
         //adjust size and set layout
         setPreferredSize (new Dimension (580, 485));
@@ -73,7 +73,17 @@ public class ManageUsersGUI1 extends JPanel {
             frame.pack();
         }
     }
-
+   
+   /**
+   private class DeleteButtonListener implements ActionListener {
+        @Override
+        public void actionPerformned(ActionEvent e) {
+            nameCheckbox[i].setVisible(False);
+            namePanel.remove(nameCheckbox[i]);
+            namePanel.updateUI();
+        }
+    } 
+    */
 
     public static void main (String[] args) {
         JFrame frame = new JFrame ("AddUsersPanel1");
