@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.awt.TextField;
 import java.util.*;
 import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
 
 public class ManageUsersGUI1 extends JPanel {
-    public static ArrayList<AddUsers> users = new ArrayList<>();
-    
+    public ArrayList<AddUsers> users = new ArrayList<>();
+
     private JLabel addNewUserLabel;
     private JTextField addNewUserTextField;
     private JLabel deleteUsersLabel;
@@ -63,8 +64,9 @@ public class ManageUsersGUI1 extends JPanel {
             String text = addNewUserTextField.getText();
             users.add(new AddUsers(text));
 
-            // Display the charges.
+            // Display the changes.
             JOptionPane.showMessageDialog(null, text + " has been added.");
+            
             JCheckBox nameCheckBox = new JCheckBox();
             nameCheckBox.setText(addNewUserTextField.getText());
             namePanel.add(nameCheckBox);
@@ -79,7 +81,14 @@ public class ManageUsersGUI1 extends JPanel {
     private class DeleteButtonListener implements ActionListener {
          @Override
          public void actionPerformed(ActionEvent e) {
-         //////STUCK HERE////
+            for(Component component : namePanel.getComponents()) {
+               if(component instanceof JCheckBox) {
+                  if(((JCheckBox)component).isSelected())
+                     namePanel.remove(component);
+               }
+            }
+            namePanel.revalidate();
+            namePanel.repaint();
          }   
     }
                 
