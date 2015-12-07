@@ -1,10 +1,10 @@
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Chore {
     private String name;
     private Frequency frequency;
     private int points;
-    private Date lastCompleted;
+    private LocalDateTime lastCompleted;
 
     public Chore(String name, Frequency frequency, int points) {
         this.name = name;
@@ -20,6 +20,9 @@ public class Chore {
     public void setFrequency(Frequency frequency) {
         this.frequency = frequency;
     }
+    public Frequency getFrequency() {
+        return frequency;
+    }
     public void setPoints(int points) {
         this.points = points;
     }
@@ -27,8 +30,12 @@ public class Chore {
         return points;
     }
     public void setComplete() {
-        lastCompleted = new Date();
+        lastCompleted = LocalDateTime.now();
     }
+    public LocalDateTime getLastCompleted() {
+        return lastCompleted;
+    }
+
     public String toString() {
         return getName();
     }

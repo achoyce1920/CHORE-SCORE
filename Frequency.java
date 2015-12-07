@@ -3,6 +3,7 @@ public enum Frequency {
     WEEKLY("Weekly"),
     MONTHLY("Monthly");
 
+    //intervals of LocalDateTime
     private String frequency;
 
     Frequency(String frequency) {
