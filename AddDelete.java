@@ -11,6 +11,7 @@ public class AddDelete extends JFrame {
     public AddDelete() {
         initComponents();
         initMenu();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
    
@@ -20,7 +21,16 @@ public class AddDelete extends JFrame {
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+
+        JLabel nameLabel = new JLabel("chore name:");
+        nameTextField = new javax.swing.JTextField();
+
+        JLabel frequencyLabel = new JLabel("frequency:");
+        frequencyTextField = new javax.swing.JTextField();
+
+        JLabel pointsLabel = new JLabel("points:");
+        pointsTextField = new javax.swing.JTextField();
+
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -51,25 +61,43 @@ public class AddDelete extends JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(14, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addGroup(jPanel2Layout.createParallelGroup()
+                                        .addComponent(nameLabel)
+                                        .addComponent(frequencyLabel)
+                                        .addComponent(pointsLabel)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+
+                                .addGroup(jPanel2Layout.createParallelGroup()
+                                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(frequencyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pointsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2)
+                                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(19, 19, 19)
+                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(frequencyLabel)
+                            .addComponent(frequencyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pointsLabel)
+                            .addComponent(pointsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jButton2)
+                    .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -172,19 +200,23 @@ public class AddDelete extends JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) 
     {
+        Chore newChore = new Chore(nameTextField.getText(),
+                Frequency.valueOf(frequencyTextField.getText().toUpperCase()),
+                Integer.parseInt(pointsTextField.getText()));
 
-        String data = jTextField2.getText()+"";
-        addDataToTable(data);        
+        ChoreScoreData.getChoreList().add(newChore);
+
+        addDataToTable(newChore);
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)
     {
-        
+
         // remove item
         
-        String dataToRemove = jTextField2.getText()+"";
+        String dataToRemove = nameTextField.getText()+"";
         deleteDataFromTable(dataToRemove);
-        jTextField2.setText("");
+        nameTextField.setText("");
                 
    }
    private void deleteDataFromTable(String data)
@@ -255,7 +287,10 @@ public class AddDelete extends JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JTextField frequencyTextField;
+    private javax.swing.JTextField pointsTextField;
+
     // End of variables declaration
 
     private void initMenu() {
@@ -265,14 +300,13 @@ public class AddDelete extends JFrame {
         jComboBox1.addItem("Delete an item from the list");  
     }
 
-    private void addDataToTable(String data) {
-        
+    private void addDataToTable(Chore newChore) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int size = model.getRowCount();        
         if(size==0)
         {
             String[] choreData = new String[1];
-            choreData[0] = data.toString();
+            choreData[0] = newChore.getName();
             model.addRow(choreData);    
             return;
         }
@@ -282,7 +316,7 @@ public class AddDelete extends JFrame {
         }
                 
             String[] choreData = new String[1];
-            choreData[0] = data.toString();
+            choreData[0] = newChore.getName();
             model.addRow(choreData);
         
     }
